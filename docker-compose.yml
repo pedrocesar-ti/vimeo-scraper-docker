@@ -6,8 +6,8 @@ services:
     ports:
       - "27017-27019:27017-27019"
   scraper:
-    build: .
-#    image: pedrocesarti/vimeo-scraper
+    #    build: .
+    image: pedrocesarti/vimeo-scraper
     environment:
       - ID_START=335474674
       - ID_END=335474675

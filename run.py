@@ -53,9 +53,9 @@ def th(q):
             #traceback.print_exc()
 
 def get_max_id():
-    maxrecord = mycol.find_one(sort=[("uid", -1)])
-    if maxrecord == None:
-        print("Initiate DB")
+    maxrecord = mycol.find_one(sort=[("_id", -1)])
+    if maxrecord is None:
+        logging.info("Initiate DB")
         data = {
             "_id": 0,
             "title": "First"}
@@ -63,10 +63,11 @@ def get_max_id():
         mycol.update({"_id": 0}, data, upsert=True)
         maxrecord = mycol.find_one(sort=[("uid", -1)])
        
-        if int(maxrecord["_id"] > int(sys.argv[1]):
-            return int(maxrecord["_id"])
-        else:
-            return int(sys.argv[1])
+    logging.info("MAX ID: {} - ARGV: {}".format(int(maxrecord["_id"]), int(sys.argv[1])))
+    if int(maxrecord["_id"]) > int(sys.argv[1]):
+        return int(maxrecord["_id"])
+    else:
+        return int(sys.argv[1])
 
 
 for i in range(get_max_id(), int(sys.argv[2])):
