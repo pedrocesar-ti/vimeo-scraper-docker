@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO,format="")
 # file_handler.setFormatter(logging.Formatter(""))
 # logging.getLogger().addHandler(file_handler)
 
-myclient = pymongo.MongoClient("mongodb://db:27017/")
+myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = myclient["vimeo"]
 mycol = mydb["videos"]
 
@@ -52,13 +52,24 @@ def th(q):
             #import traceback
             #traceback.print_exc()
 
-#for i in reversed(range(335200000, 339999999)):
-print(sys.argv[1])
-print(type(sys.argv[1]))
-for i in range(int(sys.argv[1]), int(sys.argv[2])):
+def get_max_id():
+    maxrecord = mycol.find_one(sort=[("uid", -1)])
+    if maxrecord == None:
+        print("Initiate DB")
+        data = {
+            "_id": 0,
+            "title": "First"}
+
+        mycol.update({"_id": 0}, data, upsert=True)
+        maxrecord = mycol.find_one(sort=[("uid", -1)])
+        
+    return int(maxrecord["_id"])
+
+
+for i in range(get_max_id(), 339999999):
     jobs.put(f'{i:09}')
 
-for i in range(2000):
+for i in range(100):
     t = Thread(target=th,args=(jobs,))
     t.setDaemon(True)
     t.start()
