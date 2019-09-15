@@ -62,11 +62,14 @@ def get_max_id():
 
         mycol.update({"_id": 0}, data, upsert=True)
         maxrecord = mycol.find_one(sort=[("uid", -1)])
-        
-    return int(maxrecord["_id"])
+       
+        if int(maxrecord["_id"] > int(sys.argv[1]):
+            return int(maxrecord["_id"])
+        else:
+            return int(sys.argv[1])
 
 
-for i in range(get_max_id(), 339999999):
+for i in range(get_max_id(), int(sys.argv[2])):
     jobs.put(f'{i:09}')
 
 for i in range(100):
