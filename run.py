@@ -49,8 +49,6 @@ def th(q):
                 continue
             else:
                 raise
-            #import traceback
-            #traceback.print_exc()
 
 def get_max_id():
     maxrecord = mycol.find_one(sort=[("_id", -1)])

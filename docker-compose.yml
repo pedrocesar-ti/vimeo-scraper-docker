@@ -5,12 +5,14 @@ services:
     image: mongo
     ports:
       - "27017-27019:27017-27019"
+    volumes:
+      - $PWD/datadir:/data/db
   scraper:
-    #    build: .
+#    build: .
     image: pedrocesarti/vimeo-scraper
     environment:
-      - ID_START=335474674
-      - ID_END=335474675
+      - ID_START=335000000
+      - ID_END=339999999
     links:
       - db
     depends_on:
