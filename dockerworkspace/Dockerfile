@@ -9,5 +9,4 @@ ADD requirements.txt .
 
 RUN pip install -r requirements.txt
 
-
 CMD python run.py $ID_START $ID_END

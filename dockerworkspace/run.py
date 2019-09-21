@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO,format="")
 # file_handler.setFormatter(logging.Formatter(""))
 # logging.getLogger().addHandler(file_handler)
 
-myclient = pymongo.MongoClient("mongodb://db:27017/")
+myclient = pymongo.MongoClient("mongodb://db_0:27017/")
 mydb = myclient["vimeo"]
 mycol = mydb["videos"]
 
