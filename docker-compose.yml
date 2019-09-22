@@ -2,18 +2,30 @@ version: '3'
 
 services:
   db:
-    image: mongo
+    image: mongo:latest
+    deploy:
+      replicas: 1
     ports:
-      - "27017-27019:27017-27019"
+      - "27017:27017"
+      - "27018:27018"
+      - "27019:27019"
     volumes:
       - $PWD/datadir:/data/db
+    networks:
+      - vimeo-scraper-network
+
   scraper:
-#    build: .
-    image: pedrocesarti/vimeo-scraper
+    # build: ./dockerworkspace
+    image: pedrocesarti/vimeo-scraper:latest
+    deploy:
+      replicas: 10000
     environment:
-      - ID_START=335000000
-      - ID_END=339999999
-    links:
-      - db
+      - VIMEO_ID_START=300000000
+      - VIMEO_ID_END=400000000
+    networks:
+      - vimeo-scraper-network
     depends_on:
       - db
+
+networks:
+  vimeo-scraper-network:
