@@ -16,17 +16,16 @@ services:
 
   scraper:
     # build: ./dockerworkspace
-    image: pedrocesarti/vimeo-scraper:test
+    image: pedrocesarti/vimeo-scraper:latest
     deploy:
-      replicas: 2
+      replicas: 10000
     environment:
-      - ID_START=335000000
-      - ID_END=335000200
+      - VIMEO_ID_START=300000000
+      - VIMEO_ID_END=400000000
     networks:
       - vimeo-scraper-network
     depends_on:
       - db
-
 
 networks:
   vimeo-scraper-network:

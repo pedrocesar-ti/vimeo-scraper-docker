@@ -8,7 +8,7 @@ import logging
 
 dockercli = docker.from_env()
 parser = argparse.ArgumentParser()
-logging.basicConfig(format='', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
 
 
 parser.add_argument('--start', type=int, required=True, help='Start ID of Vimeo video.')
@@ -21,7 +21,7 @@ def load_config(config_file):
         try:
             return yaml.load(f, Loader=yaml.FullLoader)
         except yaml.YAMLError as err:
-            logging.info(err)
+            logging.error(err)
 
 def create_network(name):
     if len(dockercli.networks.list(name)) == 0:
@@ -63,7 +63,7 @@ def run_container(service, replica, **kwargs):
 
     logging.info("Running container: {}".format(service_name))
     if "environment" in kwargs:
-        logging.info(kwargs["environment"])
+        logging.debug(kwargs["environment"])
     dockercli.containers.run(name=service_name, ports=ports_dict, **kwargs, detach=True)
 
 def wait_release_resource():
@@ -84,7 +84,7 @@ def find_start_end(arg_start, arg_end, replica, instance):
     div=int((arg_end - arg_start)/replica)
     x = range(arg_start, arg_end, div)
 
-    return ['ID_START={}'.format(x[instance]), 'ID_END={}'.format(x[instance]+div)]
+    return ['VIMEO_ID_START={}'.format(x[instance]), 'VIMEO_ID_END={}'.format(x[instance]+div)]
 
 
 config = load_config("./docker-compose.yml")
